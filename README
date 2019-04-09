@@ -1,0 +1,14 @@
+tl;dr: syncronizes events
+
+but this makes everything run in one thread so optimally,
+make a function do exactly what needs to be syncronized and
+nothing else (eg. io/sqlite query/etc). 
+
+Originally conceived to fix the errors:
+    sqlite3.OperationalError: database is locked
+        FROM:   c.execute("SELECT * FROM sensordatasamples ORDER BY RANDOM() LIMIT 1;")
+        FROM:   c.execute("UPDATE proxies SET alive = ?, lastchecked = ? WHERE ipport = ?", (int(alive), int(time.time()), ipport.strip()))
+        etc etc
+
+    PermissionError: [Errno 13] Permission denied:      
+        FROM:   with open("logs.txt", "a+") as f:
